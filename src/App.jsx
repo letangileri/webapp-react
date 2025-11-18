@@ -1,0 +1,20 @@
+import { BrowserRouter, Route, Routes } from "react-router";
+import DefaultLayout from "../layouts/DefaultLayout";
+function App() {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<DefaultLayout />}>
+            <Route path="/" element={<h1>Hello world</h1>} />
+            <Route path="/movies" element={<h1>Movies page</h1>} />
+            <Route path="/admin" element={<h1>Admin page</h1>} />
+            <Route path="*" element={<h1>404 not found</h1>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
+}
+
+export default App;
