@@ -1,26 +1,37 @@
+import { useEffect } from "react";
 import { useParams } from "react-router";
+import { useState } from "react";
+import axios from "axios";
+
+const API_URL = "http://localhost:3000/api/movies";
 export default function MoviePage() {
   const { id } = useParams();
+  const [movie, setMovie] = useState({});
+  const [review, setReview] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/${id}`)
+      .then((res) => {
+        console.log(res.data.thisMovie);
+        console.log(res.data.thisMovie.review_);
+        setMovie(res.data.thisMovie);
+        setReview(res.data.thisMovie.review_);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
   return (
     <>
       <div className="p-5 mb-4 bg-light rounded-3">
         <div className="container-fluid py-5 d-flex gap-4">
           <div className="cover col-12 col-sm-5 col-md-4">
-            <img
-              className="img-fluid"
-              src="https://www.w3schools.com/tags/img_girl.jpg"
-              alt=""
-            />
+            <img className="img-fluid" src={movie.image} alt={movie.title} />
           </div>
           <div className="details">
-            <h1 className="display-5 fw-bold">Custom jumbotron</h1>
-            <p className="lead">
-              Using a series of utilities, you can create this jumbotron, just
-              like the one in previous versions of Bootstrap. Check out the
-              examples below for how you can remix and restyle it to your
-              liking.
-            </p>
+            <h1 className="display-5 fw-bold">{movie.title}</h1>
+            <p className="lead">{movie.abstract}</p>
           </div>
         </div>
       </div>
@@ -75,53 +86,17 @@ export default function MoviePage() {
 
       <section id="reviews">
         <div className="container">
-          <div className="card p-3 mb-3">
-            <h4>Giovanni</h4>
-            <p>Rich, emotional anf beatifully film</p>
-            <div className="vote text-warning">
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star"></i>
+          {review.map((singleReview) => (
+            <div className="card p-3 mb-3" key={singleReview.id}>
+              <h4>{singleReview.name}</h4>
+              <p>{singleReview.text}</p>
+              <div>{singleReview.vote}</div>
+              <div className="vote text-warning">
+                {"★".repeat(singleReview.vote)}
+                {"☆".repeat(5 - singleReview.vote)}
+              </div>
             </div>
-          </div>
-
-          <div className="card p-3 mb-3">
-            <h4>Giovanni</h4>
-            <p>Rich, emotional anf beatifully film</p>
-            <div className="vote text-warning">
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star"></i>
-            </div>
-          </div>
-
-          <div className="card p-3 mb-3">
-            <h4>Giovanni</h4>
-            <p>Rich, emotional anf beatifully film</p>
-            <div className="vote text-warning">
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star"></i>
-            </div>
-          </div>
-
-          <div className="card p-3 mb-3">
-            <h4>Giovanni</h4>
-            <p>Rich, emotional anf beatifully film</p>
-            <div className="vote text-warning">
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star-fill"></i>
-              <i className="bi bi-star"></i>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
     </>
