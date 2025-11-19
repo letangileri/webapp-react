@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useState } from "react";
 import axios from "axios";
+import ReviewCard from "../componets/ReviewCard";
+import ReviewList from "../componets/ReviewList";
 
 const API_URL = "http://localhost:3000/api/movies";
 export default function MoviePage() {
@@ -84,21 +86,7 @@ export default function MoviePage() {
         <hr className="w-25 mx-auto pt-5 my-5" />
       </section>
 
-      <section id="reviews">
-        <div className="container">
-          {review.map((singleReview) => (
-            <div className="card p-3 mb-3" key={singleReview.id}>
-              <h4>{singleReview.name}</h4>
-              <p>{singleReview.text}</p>
-              <div>{singleReview.vote}</div>
-              <div className="vote text-warning">
-                {"★".repeat(singleReview.vote)}
-                {"☆".repeat(5 - singleReview.vote)}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ReviewList review={review} />
     </>
   );
 }
