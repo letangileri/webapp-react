@@ -1,6 +1,23 @@
+import { useEffect } from "react";
 import { Link } from "react-router";
-
+import axios from "axios";
+import { useState } from "react";
+const API_URL = "http://localhost:3000/api/movies";
 export default function MoviesPage() {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(API_URL)
+      .then((res) => {
+        console.log(res.data.movies);
+        setMovies(res.data.movies);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   return (
     <>
       <div className="p-5 mb-4 bg-light rounded-3">
@@ -14,159 +31,25 @@ export default function MoviesPage() {
       <section className="mb-4">
         <div className="container">
           <div className="row row-cols1 row-cols-md-3 g-4">
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/1">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/1">
-                    View Details
+            {movies.map((movie) => (
+              <div className="col" key={movie.id}>
+                <div className="card">
+                  <Link to={`/movies/${movie.id}`}>
+                    <img
+                      className="card-img-top"
+                      src={movie.image}
+                      alt={movie.title}
+                    />
                   </Link>
+                  <div className="card-body">
+                    <h5 className="card-title">{movie.title}</h5>
+                    <Link className="btn btn-dark" to={`/movies/${movie.id}`}>
+                      View Details
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/2">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/2">
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/3">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/3">
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/1">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/1">
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/2">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/2">
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/3">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/3">
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/1">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/1">
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/2">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/2">
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card">
-                <Link to="/movies/3">
-                  <img
-                    className="card-img-top"
-                    src="https://www.w3schools.com/tags/img_girl.jpg"
-                    alt=""
-                  />
-                </Link>
-                <div className="card-body">
-                  <h5 className="card-title">The boy alone</h5>
-                  <Link className="btn btn-dark" to="/movies/3">
-                    View Details
-                  </Link>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
           <div className="text-center">
             <button className="btn btn-dark mt-5">Load More Films</button>
