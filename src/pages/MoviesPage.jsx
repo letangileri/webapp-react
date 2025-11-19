@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { Link } from "react-router";
 import axios from "axios";
 import { useState } from "react";
+import MovieCard from "../componets/MovieCard";
+import MovieList from "../componets/MovieList";
 const API_URL = "http://localhost:3000/api/movies";
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
@@ -28,34 +30,7 @@ export default function MoviesPage() {
           </p>
         </div>
       </div>
-      <section className="mb-4">
-        <div className="container">
-          <div className="row row-cols1 row-cols-md-3 g-4">
-            {movies.map((movie) => (
-              <div className="col" key={movie.id}>
-                <div className="card">
-                  <Link to={`/movies/${movie.id}`}>
-                    <img
-                      className="card-img-top"
-                      src={movie.image}
-                      alt={movie.title}
-                    />
-                  </Link>
-                  <div className="card-body">
-                    <h5 className="card-title">{movie.title}</h5>
-                    <Link className="btn btn-dark" to={`/movies/${movie.id}`}>
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center">
-            <button className="btn btn-dark mt-5">Load More Films</button>
-          </div>
-        </div>
-      </section>
+      <MovieList movies={movies} />
     </>
   );
 }
